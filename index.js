@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
-mongoose.connect("mongodb://localhost/gamepad-melanie");
+mongoose.connect("mongodb://localhost:27017/gamepad-melanie");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_API_NAME,
@@ -24,8 +24,10 @@ const home = require("./routes/home");
 app.use(home);
 
 const games = require("./routes/games");
-const router = require("./routes/home");
 app.use(games);
+
+const users = require("./routes/users");
+app.use(users);
 
 // All Routes
 

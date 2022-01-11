@@ -49,6 +49,34 @@ router.post("/user/signup", async (req, res) => {
       }
     }
   } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.post("/user/login", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.fields.email });
+    if (user === null) {
+      res.status(400).json({ message: "Non autorisé" });
+    } else {
+      console.log(user.hash, "Hash à comparer");
+      const newHash = SHA256(req.fields.password + user.salt).toString(
+        encBase64
+      );
+      console.log(newHash);
+      if (user.hash === newHash) {
+        res.json({
+          _id: user._id,
+          token: user.token,
+          account: user.account,
+        });
+      } else {
+        res.status(401).json({ error: "Non autorisé" });
+      }
+    }
+  } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
+
+module.exports = router;
