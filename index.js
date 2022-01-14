@@ -29,6 +29,9 @@ app.use(games);
 const users = require("./routes/users");
 app.use(users);
 
+const favorites = require("./routes/favorites");
+app.use(favorites);
+
 // All Routes
 
 app.get("/", (req, res) => {
