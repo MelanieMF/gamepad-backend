@@ -32,6 +32,9 @@ app.use(users);
 const favorites = require("./routes/favorites");
 app.use(favorites);
 
+const reviews = require("./routes/reviews");
+app.use(reviews);
+
 // All Routes
 
 app.get("/", (req, res) => {

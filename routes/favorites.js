@@ -11,12 +11,10 @@ router.use(formidableMiddleware());
 // CREATE
 router.post("/add/favorites", isAuthenticated, async (req, res) => {
   try {
-    const user = await User.findOne({
-      token: req.headers.authorization.slice(7),
-    });
+    const user = req.user;
     let isAlreadyFavorite = false;
     let indexFav;
-    console.log(req.fields);
+    // console.log(req.fields);
     for (let i = 0; i < user.favoris.length; i++) {
       if (user.favoris[i].id === req.fields.id) {
         isAlreadyFavorite = true;
@@ -26,7 +24,7 @@ router.post("/add/favorites", isAuthenticated, async (req, res) => {
     if (isAlreadyFavorite === false) {
       const addFav = {
         name: req.fields.name,
-        description: req.fields.description,
+        background_image: req.fields.background_image,
         id: req.fields.id,
       };
       // console.log(addFav);

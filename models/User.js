@@ -20,6 +20,12 @@ const User = mongoose.model("User", {
     type: Array,
     default: [],
   },
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = User;
