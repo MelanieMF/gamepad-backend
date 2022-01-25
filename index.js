@@ -36,14 +36,13 @@ const reviews = require("./routes/reviews");
 app.use(reviews);
 
 // All Routes
-
 app.get("/", (req, res) => {
   res.send("Welcome to my api");
 });
 
-app.all("*", (req, res) => {
-  res.status(400).json({ message: error.message });
-});
+// app.all("*", (req, res) => {
+//   res.status(400).json({ message: error.message });
+// });
 
 // Port
 app.listen(4000, () => {

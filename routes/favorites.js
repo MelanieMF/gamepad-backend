@@ -45,7 +45,7 @@ router.post("/add/favorites", isAuthenticated, async (req, res) => {
 
 // READ
 router.get("/favoris", async (req, res) => {
-  // console.log(req.fields.name);
+  console.log(req.fields);
   try {
     const user = await User.findOne({
       token: req.headers.authorization.slice(7),
@@ -53,6 +53,24 @@ router.get("/favoris", async (req, res) => {
     res.json(user.favoris);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+// DELETE
+router.post("/delete/favorites", isAuthenticated, async (req, res) => {
+  const user = req.user;
+  const id = req.fields.id;
+  console.log(user.favoris);
+  if (id) {
+    for (let i = 0; i < user.favoris.length; i++) {
+      if (id === req.user.favoris[i].id) {
+        user.favoris.splice(i, 1);
+      }
+    }
+    await user.save();
+    res.json({ message: "Favorite removed" });
+  } else {
+    res.status(400).json({ message: "Missing id" });
   }
 });
 
