@@ -1,4 +1,5 @@
 // Imports
+require("dotenv").config();
 const express = require("express");
 const formidable = require("express-formidable");
 const cors = require("cors");
