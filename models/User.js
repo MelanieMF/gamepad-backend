@@ -5,14 +5,11 @@ const User = mongoose.model("User", {
     unique: true,
     type: String,
   },
-  account: {
-    username: {
-      required: true,
-      type: String,
-    },
-    phone: String,
-    avatar: Object,
+  username: {
+    required: true,
+    type: String,
   },
+  avatar: { type: Object },
   token: String,
   hash: String,
   salt: String,

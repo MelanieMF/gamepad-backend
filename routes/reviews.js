@@ -15,17 +15,18 @@ router.post("/add/reviews", isAuthenticated, async (req, res) => {
     const user = req.user;
     // console.log(req.user);
     const reviewExists = await Review.findOne({
-      username: req.user.account.username,
+      username: req.user.username,
       game_id: req.fields.game_id,
     });
-    console.log(reviewExists);
+    // console.log(reviewExists);
     // console.log(req.user);
-    console.log(req.fields.game_id);
+    // console.log(req.fields.game_id);
 
     if (reviewExists === null) {
       // console.log(req.fields);
       const addReview = new Review({
-        username: req.user.account.username,
+        username: req.user.username,
+        avatar: req.user.avatar.secure_url,
         title: req.fields.title,
         description: req.fields.text,
         game_id: req.fields.game_id,
@@ -45,15 +46,68 @@ router.post("/add/reviews", isAuthenticated, async (req, res) => {
 });
 
 // READ
-// router.get("/reviews", async (req, res) => {
-//   // console.log(req.fields.name);
+router.get("/reviews/:id", async (req, res) => {
+  // console.log(req.fields.name);
+  try {
+    const reviews = await Review.find({ game_id: req.params.id });
+    reviews && res.send(reviews);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// // LIKE REVIEW
+// router.post("/review/like", isAuthenticated, async (req, res) => {
+//   const review = await Review.findById(req.fields._id);
+
+//   const likeExist = review.likes.indexOf(req.user.username);
 //   try {
-//     const user = await User.findOne({
-//       token: req.headers.authorization.slice(7),
-//     });
-//     res.json(user.favoris);
+//     if (likeExist === -1) {
+//       review.likes.push(req.user.username);
+//       await review.save();
+
+//       res.json(review);
+//     } else {
+//       review.likes.splice(likeExist, 1);
+//       await review.save();
+
+//       res.json(review);
+//     }
 //   } catch (error) {
-//     res.status(400).json({ message: error.message });
+//     res.status(400).json({ error: error.message });
+//   }
+// });
+
+// // DISLIKE REVIEW
+// router.post("/review/dislike", isAuthenticated, async (req, res) => {
+//   const review = await Review.findById(req.fields._id);
+
+//   const dislikeExist = review.dislikes.indexOf(req.user.username);
+//   try {
+//     if (dislikeExist === -1) {
+//       review.dislikes.push(req.user.username);
+//       await review.save();
+
+//       res.json(review);
+//     } else {
+//       review.dislikes.splice(dislikeExist, 1);
+//       await review.save();
+
+//       res.json(review);
+//     }
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// });
+
+// // DELETE
+// router.post("/delete/reviews", async (req, res) => {
+//   try {
+//     await Review.findByIdAndDelete(req.fields._id);
+
+//     res.json({ message: "Your review succesfully removed" });
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
 //   }
 // });
 

@@ -60,7 +60,7 @@ router.get("/favoris", async (req, res) => {
 router.post("/delete/favorites", isAuthenticated, async (req, res) => {
   const user = req.user;
   const id = req.fields.id;
-  console.log(user.favoris);
+  // console.log(user.favoris);
   if (id) {
     for (let i = 0; i < user.favoris.length; i++) {
       if (id === req.user.favoris[i].id) {
